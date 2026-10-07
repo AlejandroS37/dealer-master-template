@@ -1777,70 +1777,6 @@ dd {
   font-size: 10px;
   letter-spacing: 1px;
 }
-.cinematic {
-  position: fixed;
-  inset: 0;
-  z-index: 80;
-  background: #0c0f10;
-  overflow: hidden;
-  animation: cinematic-exit 4.4s both;
-  pointer-events: auto;
-}
-.cinematic > img,
-.cinematic > video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.35;
-}
-.intro-skip {
-  position: absolute;
-  right: 5%;
-  top: 35px;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  text-transform: uppercase;
-  font-size: 10px;
-  letter-spacing: 2px;
-  border: 1px solid #b7beb172;
-  padding: 14px;
-  color: #ddd;
-}
-.smoke {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 50% 80%, #b3b6b044, transparent 70%);
-  animation: smoke 2.6s ease both;
-}
-.intro-brand {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  text-align: center;
-  transform: translate(-50%, -50%);
-  white-space: nowrap;
-  animation: intro-rise 4.4s both;
-}
-.intro-brand p {
-  font-size: 8px;
-  letter-spacing: 3px;
-  margin-top: 25px;
-  color: #858d82;
-}
-.intro-caption {
-  position: absolute;
-  bottom: 25px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 8px;
-  letter-spacing: 1px;
-  color: #758070;
-  white-space: nowrap;
-}
 .transition-anchor {
   position: absolute;
   inset: 0;
@@ -1864,41 +1800,6 @@ dd {
   to {
     transform: translateY(0);
     opacity: 1;
-  }
-}
-@keyframes smoke {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-@keyframes intro-rise {
-  0%,
-  25% {
-    opacity: 0;
-    transform: translate(-50%, 30%);
-  }
-  45%,
-  72% {
-    opacity: 1;
-    transform: translate(-50%, -50%);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, calc(-50svh + 45px)) scale(0.52);
-  }
-}
-@keyframes cinematic-exit {
-  0%,
-  76% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-100%);
   }
 }
 ::view-transition-old(vehicle-photo),
@@ -2795,23 +2696,6 @@ html {
     display: flex;
   }
 }
-.intro-wrapper {
-  position: fixed;
-  inset: 0;
-  z-index: 80;
-  pointer-events: auto;
-}
-.intro-wrapper .cinematic {
-  z-index: 0;
-  animation-duration: var(--intro-duration);
-}
-.intro-wrapper .intro-brand {
-  z-index: 1;
-  animation: none;
-}
-.intro-wrapper .intro-skip {
-  z-index: 2;
-}
 .mobile-quick-actions {
   display: grid;
   gap: 12px;
@@ -2849,22 +2733,4 @@ html {
 }
 .marble .muted {
   color: #626e59;
-}
-body {
-  background:
-    linear-gradient(
-      color-mix(in srgb, var(--background) 89%, transparent),
-      color-mix(in srgb, var(--background) 89%, transparent)
-    ),
-    url("/images/black-marble.jpg") center top / cover no-repeat
-      var(--background);
-}
-.marble {
-  background:
-    linear-gradient(
-      color-mix(in srgb, var(--surface) 89%, transparent),
-      color-mix(in srgb, var(--surface) 89%, transparent)
-    ),
-    url("/images/white-marble.jpg") center / cover;
-  color: #1c2223;
 }

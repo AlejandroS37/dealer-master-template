@@ -1,8 +1,15 @@
 import { test, expect } from "@playwright/test";
 test.beforeEach(async ({ page }) => {
-  await page.addInitScript(() =>
-    sessionStorage.setItem("dealer-intro-seen", "1"),
+  // Isolate application regressions from the third-party map service/network policy.
+  await page.route("https://maps.google.com/**", (route) =>
+    route.fulfill({
+      contentType: "text/html",
+      body: "<!doctype html><title>Map provider test fixture</title><p>External map fixture</p>",
+    }),
   );
+  await page.addInitScript(() => {
+    if (window === window.top) sessionStorage.setItem("dealer-intro-seen", "1");
+  });
 });
 test("shopping filters, reset, sorting, favorites, quick actions and lead context", async ({
   page,

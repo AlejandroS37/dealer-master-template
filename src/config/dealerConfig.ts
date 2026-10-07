@@ -1,3 +1,5 @@
+import { mediaAssets } from "./mediaAssets";
+
 export const dealerConfig = {
   id: "level-up-demo",
   demoMode: true,
@@ -8,17 +10,35 @@ export const dealerConfig = {
   tagline: "Your next chapter. Your next drive.",
   heroTitle: "LEVEL UP YOUR DRIVE.",
   heroSubtitle: "Luxury. Performance. Everyday possibilities.",
-  logo: { asset: "", mark: "◇", wordmark: "LEVEL UP", subtitle: "AUTO SALES" },
+  logo: {
+    asset: mediaAssets.brand,
+    wordmark: "LEVEL UP",
+    subtitle: "AUTO SALES",
+    // The supplied brand is within a wider scene. Frame it without altering its pixels.
+    crop: {
+      left: 32.7,
+      top: 16.4,
+      width: 32.7,
+      height: 20.1,
+      sourceAspect: 1672 / 941,
+    },
+  },
   contact: {
-    phone: "",
+    phone: "(973) 688-8095",
     sms: "",
     email: "",
-    address: "Dealer address awaiting verification",
-    city: "",
-    state: "",
-    zip: "",
-    hours: ["Demo showroom · hours to be confirmed"],
-    directionsURL: "",
+    address: "604 Broadway",
+    city: "Newark",
+    state: "NJ",
+    zip: "07104",
+    hours: ["Hours awaiting dealer confirmation — call before visiting"],
+    directionsURL: "https://goo.gl/maps/K4DyrRSYqbZj4X4j9?coh=178572&entry=tt",
+    map: {
+      query: "604 Broadway, Newark, NJ 07104",
+      coordinates: null as { latitude: number; longitude: number } | null,
+      zoom: 14,
+      locationVerified: true,
+    },
   },
   socialLinks: [] as { label: string; url: string }[],
   financing: {
@@ -33,12 +53,28 @@ export const dealerConfig = {
   reviews: { source: "Sample stories", demo: true },
   intro: {
     enabled: true,
-    videoURL: "/cinematic-intro.mp4",
-    videoAvailable: false,
-    durationMs: 4400,
-    poster: "/images/hero.jpg",
+    videoURL: mediaAssets.video,
+    videoAvailable: true,
+    playbackRate: 3.1,
+    durationMs: 4800,
+    poster: mediaAssets.doorsOpen,
+    scenes: {
+      doorsOpen: mediaAssets.doorsOpen,
+      doorsClosed: mediaAssets.doorsClosed,
+      burnout: mediaAssets.burnout,
+      smoke: mediaAssets.smoke,
+    },
+    version: "supplied-cinematic-v1",
   },
-  theme: { background: "#0c0f10", surface: "#f3f2ed", accent: "#b9a273" },
+  theme: {
+    background: "#0c0f10",
+    surface: "#f3f2ed",
+    accent: "#b9a273",
+    primaryBackground: mediaAssets.blackMarble,
+    surfaceBackground: mediaAssets.whiteMarble,
+    backgroundOverlay: 0.75,
+    surfaceOverlay: 0.88,
+  },
   cta: {
     inventory: "Shop inventory",
     financing: "Get approved",

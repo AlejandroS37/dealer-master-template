@@ -2,11 +2,11 @@
 
 A reusable React + Vite + TypeScript dealership platform. **Level Up Auto Sales is Demo Dealer #1**, not a hard-coded website. The first version includes 18 sample vehicles, a cinematic shell, inventory discovery, galleries, payment estimates, financing and trade-in journeys, local favorites, sample reviews, and lead forms.
 
-All inventory, prices, specifications, generated photography, testimonials, and submissions are **illustrative demo content**. Dealer contact details have not been verified. Nothing here represents actual vehicle availability, a lender decision, or an appraisal.
+All inventory, prices, specifications, generated photography, testimonials, and submissions are **illustrative demo content**. The address and phone were supplied by the dealer; business hours remain unconfirmed. Nothing here represents actual vehicle availability, a lender decision, or an appraisal.
 
 ## Install, develop, build, test
 
-Use Node 24 (pinned in `.nvmrc` and `.node-version`) and npm. Vite also supports compatible Node 22.12+.
+Use Node 24 (pinned in `.nvmrc` and `.node-version`) and npm. The media preparation script uses Node 24 native TypeScript imports.
 
 ```sh
 npm ci
@@ -44,7 +44,7 @@ Browser tests use `/usr/bin/chromium` in this cloud machine. Elsewhere, set `PLA
 
 Keep dealer-specific content in `dealerConfig`, inventory, review data, and supplied assets. Brand names are not embedded in the reusable JSX. The dealer `id` namespaces browser-local favorites. Set `demoMode = false` after replacing sample content, and set `trade.demo = false` only when a real appraisal/contact backend is configured. Set the verified phone, optional SMS, email, address, business hours, social links, and directions URL. Unverified contact actions are deliberately absent.
 
-Theme colors activate as CSS variables. `src/styles.css` owns the reusable typography, surfaces, layout, and upward motion. Replace the marble/photography assets and colors for another identity. A custom logo goes in `logo.asset`; the crystal-inspired wordmark is a fallback. Customize headings, CTA labels, trust points, legal copy, and the intro through configuration.
+Theme colors activate as CSS variables. `src/styles.css` owns the reusable typography, surfaces, layout, and upward motion. Replace the marble/photography assets and colors for another identity. A custom logo goes in `logo.asset`; a plain text wordmark is a fallback. Customize headings, CTA labels, trust points, legal copy, and the intro through configuration.
 
 ### Inventory and adapter interface
 
@@ -99,11 +99,25 @@ Six stages: VIN/manual identification, details/history, condition, guided photos
 
 To connect a real contact backend, set `leads.mode = 'api'` and an HTTPS `endpoint`. `submitLead` posts a JSON `Lead` and reports failures. The endpoint must implement validation, consent/privacy requirements, spam protection, rate limiting, secure transport, delivery/CRM integration and appropriate storage. Client code must never hold secret API keys. This is a contact-lead integration seam, not a secure credit application system. Use an audited lender/provider integration for actual credit applications.
 
-### Cinematic asset
+### Supplied media, branding and cinematic
 
-Place the licensed, prerendered production asset at **`public/cinematic-intro.mp4`**, then set `intro.videoAvailable = true`. Configure the poster, path, duration and enabled flag in `dealerConfig`. The default is a 4.4-second static concept fallback with atmospheric overlay and a centered brand that rises to the actual navbar coordinates; the underlying layer rises independently. An immediate skip control, once-per-session behavior, video error fallback, and reduced-motion bypass are included. Intro duration is capped at five seconds.
+The original supplied PNGs and `kling_20261007_VIDEO_Cinematic__2227_0.mp4` remain unchanged at the repository root. `src/config/mediaAssets.ts` registers their exact filenames. `npm run prepare:media` creates optimized WebP derivatives and a 1280px muted MP4 in ignored `public/media/`; development and build commands run this automatically. Sharp prepares images; ffmpeg optimizes video when available, otherwise the original MP4 is copied. No new imagery or logo was generated in this revision.
 
-The final McLaren doors/burnout/smoke production video is **not included**. Author its timing to match the logo reveal (approximately halfway through) and final upward reveal (last quarter). No browser WebGL or fake vehicle simulation is used.
+The real logo is embedded in `Level Up Auto Sales Supercar Nightscape.png`. `dealerConfig.logo.crop` frames that supplied artwork without stretching or redrawing it. Adjust those crop percentages if replacing the source with another embedded logo; a standalone logo can use the full source dimensions.
+
+The 4.8-second intro combines the supplied door-closing video with supplied open/closed-door, burnout and smoke scenes. Smoke takes over before the logo reveals, holds centered for about 1.1 seconds, then rises to the actual header position while the underlying cinematic rises independently. Immediate Skip, Escape, failed-video still fallback, a strict deadline and reduced-motion bypass are supported.
+
+The intro normally appears once per browser using the versioned `dealer-intro-seen:level-up-demo:supplied-cinematic-v1` local/session key. Replay with `/?replayIntro=1`; reduced-motion preferences still take priority. To reset normal first-visit behavior, clear that key in both storage areas and the legacy `dealer-intro-seen` session key. Replace source filenames in the media registry and intro settings centrally, or disable `intro.enabled`.
+
+### Marble theme, inventory positioning and dealer map
+
+`dealerConfig.theme.primaryBackground` uses `Luxurious Black Gold Veined Marble.png`; `surfaceBackground` uses `Luxury White Gold Veined Marble.png`. Theme activation publishes image and contrast-overlay variables. `src/revision.css` applies those variables to the page and light card surfaces; replace assets and overlay settings centrally for another dealer.
+
+The sticky header measures its height. Desktop Make/Model and Filters panels stick beneath it, scroll internally when necessary, and stop at the inventory container boundary. Makes and models derive from inventory. Filter updates retain other selections and bring shortened results into view when needed. Tablet/mobile filter sheets and their existing interactions remain available.
+
+The Contact page uses a keyless Google Maps embed for **604 Broadway, Newark, NJ 07104**, the supplied directions link, and **(973) 688-8095**. No coordinates or business hours were invented. Address/query, optional verified coordinates, zoom and location status are centralized in `dealerConfig.contact.map`. A blocked embed provides external map/directions links and Retry; the contact form remains below the map section.
+
+This cloud instance currently blocks Google Maps. Browser tests stub the provider to verify application behavior and separately exercise failed-network fallback; they do not establish live Google Maps availability. The saved environment draft adds `maps.google.com`, `www.google.com`, `maps.gstatic.com`, `maps.googleapis.com`, `fonts.gstatic.com` and `lh3.googleusercontent.com` to the network allowlist. Review and publish the draft in environment settings before validating the live embed in a new environment.
 
 ### Routes, SEO and deployment
 
@@ -128,6 +142,8 @@ Static hosts must serve `index.html` for application paths while serving images/
 
 ## Current verification and limits
 
+Revision pass #1 passed 17 unit tests, 19 browser tests, the production build, and a production home/inventory/vehicle-detail smoke check. Browser provider fixtures do not verify live Google Maps access.
+
 Automated coverage includes combined inventory filters, derived makes/models, empty results, sorting, saved vehicles, lead context, gallery transitions/fullscreen/swipe, live and zero-APR payments, input clamping, slider keyboard controls, financing state carry-over, complete trade journey with photo preview, mobile sheets, focus continuity, missing-image fallback, reduced motion, intro skipping, external-provider routing, and demo/API submission boundaries.
 
-The repository has no backend, real dealer credentials, secure credit integration, vehicle-history subscription, automatic appraisal, admin dashboard or DMS integration. Those are explicit extension points rather than simulated production services. Level Up's reference site was inaccessible from the setup network, so real contact information remains unverified instead of invented.
+The repository has no backend, real dealer credentials, secure credit integration, vehicle-history subscription, automatic appraisal, admin dashboard or DMS integration. Those are explicit extension points rather than simulated production services. The supplied phone, address and directions are configured; hours, real inventory, reviews and production integrations still need dealer confirmation.

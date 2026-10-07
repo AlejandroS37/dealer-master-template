@@ -7,7 +7,6 @@ import {
   ChevronRight,
   Star,
   ShieldCheck,
-  Gem,
   KeyRound,
 } from "lucide-react";
 import { dealerConfig as d } from "../config/dealerConfig";
@@ -79,7 +78,7 @@ export function AboutSection() {
         <p>{d.about.copy}</p>
         <div className="trust-grid">
           {d.about.trust.map((text, i) => {
-            const Icon = [ShieldCheck, Gem, KeyRound, Star][i % 4];
+            const Icon = [ShieldCheck, ArrowUpRight, KeyRound, Star][i % 4];
             return (
               <div key={text}>
                 <Icon size={20} />
@@ -145,7 +144,7 @@ export default function Home() {
           <KeyRound size={16} /> Your journey. Your terms.
         </span>
         <span>
-          <Gem size={16} /> A higher standard, always
+          <ArrowUpRight size={16} /> A higher standard, always
         </span>
       </div>
       <section id="collection" className="section collection">

@@ -7,23 +7,52 @@ import { manufacturerAssets } from "../config/themeConfig";
 import { useDealer } from "../lib/store";
 import type { Vehicle } from "../lib/types";
 export function Brand({ large = false }: { large?: boolean }) {
+  const crop = dealer.logo.crop;
   return (
-    <span className={`brand ${large ? "brand-large" : ""}`}>
+    <span
+      className={`brand ${dealer.logo.asset ? "brand-asset" : ""} ${large ? "brand-large" : ""}`}
+      role="img"
+      aria-label={dealer.name}
+    >
       {dealer.logo.asset ? (
-        <img src={dealer.logo.asset} alt="" />
+        <span
+          className="brand-image-frame"
+          style={
+            {
+              "--logo-frame-aspect":
+                (crop.sourceAspect * crop.width) / crop.height,
+              "--logo-image-width": `${10000 / crop.width}%`,
+              "--logo-image-left": `${(-crop.left / crop.width) * 100}%`,
+              "--logo-image-top": `${(-crop.top / crop.height) * 100}%`,
+            } as React.CSSProperties
+          }
+        >
+          <img src={dealer.logo.asset} alt="" decoding="async" />
+        </span>
       ) : (
-        <span className="diamond">{dealer.logo.mark}</span>
+        <span>
+          <strong>{dealer.logo.wordmark}</strong>
+          <small>{dealer.logo.subtitle}</small>
+        </span>
       )}
-      <span>
-        <strong>{dealer.logo.wordmark}</strong>
-        <small>{dealer.logo.subtitle}</small>
-      </span>
     </span>
   );
 }
 export function Header() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const header = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const update = () =>
+      document.documentElement.style.setProperty(
+        "--header-height",
+        `${header.current?.getBoundingClientRect().height || 0}px`,
+      );
+    const observer = new ResizeObserver(update);
+    if (header.current) observer.observe(header.current);
+    update();
+    return () => observer.disconnect();
+  }, []);
   const { saved } = useDealer();
   useEffect(() => setOpen(false), [location.pathname]);
   return (
@@ -31,7 +60,7 @@ export function Header() {
       <a href="#main" className="skip-link">
         Skip to content
       </a>
-      <header className="header">
+      <header className="header" ref={header}>
         <div className="header-top">
           <span className="header-note">A HIGHER STANDARD OF DRIVING</span>
           <Link to="/" aria-label={`${dealer.name} home`}>
@@ -121,7 +150,7 @@ export function Photo({
       aria-label={alt}
       style={style}
     >
-      <span>◇</span>
+      <ArrowUpRight size={32} />
       <small>Photography coming soon</small>
     </div>
   ) : (

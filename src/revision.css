@@ -1,0 +1,673 @@
+/* Supplied theme media is configured once in dealerConfig and activated by applyTheme. */
+body {
+  background: var(--background);
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      color-mix(
+        in srgb,
+        var(--background) var(--background-overlay, 75%),
+        transparent
+      ),
+      color-mix(
+        in srgb,
+        var(--background) var(--background-overlay, 75%),
+        transparent
+      )
+    ),
+    var(--primary-background-image, none) center / cover no-repeat;
+}
+.marble {
+  background:
+    linear-gradient(
+      color-mix(
+        in srgb,
+        var(--surface) var(--surface-overlay, 88%),
+        transparent
+      ),
+      color-mix(
+        in srgb,
+        var(--surface) var(--surface-overlay, 88%),
+        transparent
+      )
+    ),
+    var(--surface-background-image, none) center / cover no-repeat;
+  color: #1c2223;
+}
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: color-mix(in srgb, var(--background) 96%, transparent);
+  backdrop-filter: blur(16px);
+}
+:root {
+  --header-height: 138px;
+  --sidebar-gap: 20px;
+}
+html {
+  scroll-padding-top: calc(var(--header-height) + 20px);
+}
+.brand-asset {
+  display: inline-flex;
+  gap: 0;
+}
+.brand-image-frame {
+  position: relative;
+  display: block;
+  width: 214px;
+  aspect-ratio: var(--logo-frame-aspect);
+  overflow: hidden;
+  isolation: isolate;
+  mask-image:
+    linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent),
+    linear-gradient(0deg, transparent, #000 3%, #000 97%, transparent);
+  mask-composite: intersect;
+}
+.brand-asset .brand-image-frame img {
+  position: absolute;
+  max-width: none;
+  width: var(--logo-image-width);
+  height: auto;
+  left: var(--logo-image-left);
+  top: var(--logo-image-top);
+  object-fit: initial;
+}
+.brand-large .brand-image-frame {
+  width: min(580px, 82vw);
+}
+.footer-main .brand-image-frame {
+  width: 180px;
+}
+.inventory-layout {
+  align-items: start;
+}
+.makes-sidebar,
+.filters-sidebar {
+  position: sticky;
+  top: calc(var(--header-height) + var(--sidebar-gap));
+  align-self: start;
+  max-height: calc(100dvh - var(--header-height) - var(--sidebar-gap) - 20px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #695f4b transparent;
+  scrollbar-gutter: stable;
+}
+.makes-sidebar {
+  padding-right: 5px;
+}
+.filters-sidebar {
+  padding-right: 6px;
+}
+.makes-sidebar::-webkit-scrollbar,
+.filters-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+.makes-sidebar::-webkit-scrollbar-thumb,
+.filters-sidebar::-webkit-scrollbar-thumb {
+  background: #695f4b;
+}
+.sidebar-model-control {
+  border-block: 1px solid var(--line);
+  padding: 15px 0 0;
+  margin-bottom: 8px;
+}
+.sidebar-model-control > .eyebrow {
+  font-size: 9px;
+  margin-bottom: 10px;
+}
+.sidebar-model-control label {
+  font-size: 10px;
+  color: #bec4b7;
+}
+.sidebar-model-control select {
+  background: #141919;
+  color: #eee;
+  border-color: #424b3c;
+  font-size: 10px;
+}
+.inventory-results {
+  min-width: 0;
+  scroll-margin-top: 20px;
+}
+.dealer-location {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 1fr);
+  min-height: 470px;
+  box-shadow: 0 10px 45px #0002;
+}
+.dealer-map {
+  position: relative;
+  min-height: 470px;
+  background: #daddd6;
+  overflow: hidden;
+  border-right: 1px solid #c7cabe;
+}
+.dealer-map iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #daddd6;
+  min-height: 470px;
+}
+.map-label {
+  position: absolute;
+  z-index: 1;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: #101615ed;
+  color: #e8ebdf;
+  padding: 12px 14px;
+  font-size: 9px;
+  letter-spacing: 1.1px;
+  pointer-events: none;
+}
+.map-label svg {
+  color: var(--accent);
+}
+.map-external {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: var(--surface);
+  padding: 15px 18px;
+  box-shadow: 0 2px 10px #0002;
+}
+.location-information {
+  padding: 42px 34px;
+}
+.location-information h2 {
+  font-size: 40px;
+  margin: 18px 0 30px;
+}
+.location-address,
+.location-hours,
+.location-phone {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.location-address svg,
+.location-hours svg,
+.location-phone svg {
+  color: #8a7446;
+  margin-top: 4px;
+}
+.location-information p {
+  font-size: 12px;
+  color: #5d6757;
+}
+.location-caption {
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  color: #787e70;
+  display: block;
+  margin: 0 0 8px;
+}
+.location-phone {
+  font-size: 14px;
+  align-items: center;
+}
+.location-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 25px;
+}
+.location-actions .button {
+  font-size: 9px;
+  gap: 14px;
+  padding: 16px 18px;
+}
+.location-information .location-disclaimer {
+  margin-top: 20px;
+  font-size: 10px;
+  line-height: 1.7;
+  color: #65705c;
+}
+.location-information .notice {
+  font-size: 10px;
+}
+.map-fallback {
+  height: 100%;
+  min-height: 470px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 45px 35px;
+  text-align: center;
+}
+.map-fallback > svg {
+  color: #8a7446;
+}
+.map-fallback h3 {
+  margin: 20px 0 15px;
+}
+.map-fallback p {
+  font-size: 12px;
+  max-width: 350px;
+  margin-bottom: 20px;
+}
+.contact-conversation {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 65px;
+  align-items: start;
+  padding-top: 65px;
+}
+.contact-conversation > div:first-child {
+  padding-top: 30px;
+}
+.contact-conversation h2 {
+  margin: 18px 0 23px;
+}
+.contact-conversation p {
+  font-size: 12px;
+  max-width: 350px;
+}
+.intro-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  overflow: hidden;
+  isolation: isolate;
+}
+.cinematic {
+  position: absolute;
+  inset: 0;
+  background: #11141a;
+  transform-origin: center;
+  animation: level-up-reveal var(--intro-duration) both
+    cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.intro-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  animation-duration: var(--intro-duration);
+  animation-fill-mode: both;
+  animation-timing-function: linear;
+}
+.intro-scene > img,
+.intro-scene > video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 58%;
+}
+.intro-open {
+  animation-name: garage-push;
+}
+.intro-video {
+  opacity: 0;
+  transition: opacity 120ms linear;
+}
+.intro-video.is-playing {
+  opacity: 1;
+}
+.intro-closed {
+  animation-name: doors-closed;
+}
+.intro-burnout {
+  animation-name: burnout-push;
+  transform-origin: 50% 60%;
+}
+.intro-smoke {
+  animation-name: smoke-rush;
+  transform-origin: 50% 63%;
+}
+.smoke-depth {
+  position: absolute;
+  inset: -12%;
+  background: var(--intro-smoke-image) center / cover no-repeat;
+  opacity: 0.35;
+  mix-blend-mode: screen;
+  animation: smoke-drift var(--intro-duration) both linear;
+}
+.taillight {
+  position: absolute;
+  top: 48%;
+  width: 16%;
+  height: 7%;
+  border-radius: 50%;
+  background: #ff252534;
+  filter: blur(20px);
+  mix-blend-mode: screen;
+  box-shadow: 0 0 30px #ff292925;
+}
+.taillight-left {
+  left: 24%;
+}
+.taillight-right {
+  right: 24%;
+}
+.intro-logo-veil {
+  position: absolute;
+  inset: 0;
+  background: #10161ddd;
+  animation: logo-veil var(--intro-duration) both linear;
+}
+.intro-brand {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity;
+}
+.intro-brand .brand-image-frame {
+  filter: drop-shadow(0 10px 30px #0006);
+}
+.intro-skip {
+  position: absolute;
+  right: 5%;
+  top: 28px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #e3e6e067;
+  background: #10151abb;
+  color: #f3f3ef;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  padding: 14px 18px;
+  min-height: 46px;
+}
+@keyframes garage-push {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  28% {
+    opacity: 1;
+    transform: scale(1.015);
+  }
+  38%,
+  100% {
+    opacity: 0;
+    transform: scale(1.025);
+  }
+}
+@keyframes doors-closed {
+  0%,
+  27% {
+    opacity: 0;
+    transform: scale(1.005);
+  }
+  34% {
+    opacity: 1;
+    transform: scale(1.015);
+  }
+  43%,
+  100% {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+}
+@keyframes burnout-push {
+  0%,
+  32% {
+    opacity: 0;
+    transform: scale(1.01);
+  }
+  39% {
+    opacity: 1;
+    transform: scale(1.035);
+  }
+  49% {
+    opacity: 1;
+    transform: scale(1.11);
+    filter: blur(0.3px);
+  }
+  59%,
+  100% {
+    opacity: 0;
+    transform: scale(1.22);
+    filter: blur(1px);
+  }
+}
+@keyframes smoke-rush {
+  0%,
+  40% {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+  47% {
+    opacity: 1;
+    transform: scale(1.18);
+  }
+  56% {
+    opacity: 1;
+    transform: scale(1.6);
+  }
+  82%,
+  100% {
+    opacity: 1;
+    transform: scale(1.82);
+  }
+}
+@keyframes smoke-drift {
+  0%,
+  40% {
+    opacity: 0;
+    transform: translateY(7%) scale(1);
+  }
+  58% {
+    opacity: 0.32;
+    transform: translateY(-3%) scale(1.22);
+  }
+  100% {
+    opacity: 0.2;
+    transform: translateY(-8%) scale(1.4);
+  }
+}
+@keyframes logo-veil {
+  0%,
+  51% {
+    opacity: 0;
+  }
+  60%,
+  100% {
+    opacity: 0.85;
+  }
+}
+@keyframes level-up-reveal {
+  0%,
+  81% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-103%);
+  }
+}
+@media (max-width: 1100px) {
+  .dealer-location {
+    grid-template-columns: 1.1fr 1fr;
+  }
+  .location-information {
+    padding: 32px 26px;
+  }
+  .location-information h2 {
+    font-size: 36px;
+  }
+}
+@media (max-width: 850px) {
+  :root {
+    --header-height: 125px;
+  }
+  .dealer-location {
+    grid-template-columns: 1fr;
+  }
+  .dealer-map {
+    border-right: 0;
+    border-bottom: 1px solid #c7cabe;
+    min-height: 390px;
+  }
+  .dealer-map iframe {
+    min-height: 390px;
+  }
+  .location-information {
+    padding: 35px;
+  }
+  .contact-conversation {
+    gap: 30px;
+  }
+  .mobile-filter-bar {
+    position: sticky;
+    top: var(--header-height);
+    z-index: 15;
+    background: color-mix(in srgb, var(--background) 97%, transparent);
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+    backdrop-filter: blur(14px);
+  }
+  .mobile-filter-bar button {
+    background: #141918;
+  }
+  .filters-sidebar {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+}
+@media (max-width: 600px) {
+  :root {
+    --header-height: 76px;
+    --sidebar-gap: 14px;
+  }
+  .brand-image-frame {
+    width: 157px;
+  }
+  .footer-main .brand-image-frame {
+    width: 148px;
+  }
+  .brand-large .brand-image-frame {
+    width: 86vw;
+  }
+  .makes-sidebar,
+  .filters-sidebar {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+  .mobile-filter-bar button {
+    min-height: 42px;
+  }
+  .dealer-map,
+  .dealer-map iframe {
+    min-height: 330px;
+  }
+  .map-label {
+    top: 14px;
+    left: 14px;
+    font-size: 8px;
+    padding: 10px;
+  }
+  .map-external {
+    bottom: 14px;
+    left: 14px;
+    font-size: 9px;
+    min-height: 44px;
+  }
+  .location-information {
+    padding: 29px 24px;
+  }
+  .location-information h2 {
+    font-size: 38px;
+  }
+  .location-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .location-actions .button {
+    width: 100%;
+    min-height: 50px;
+    font-size: 11px;
+    justify-content: space-between;
+  }
+  .location-actions .text-link {
+    padding: 12px 0;
+  }
+  .contact-conversation {
+    grid-template-columns: 1fr;
+    padding-top: 35px;
+    gap: 28px;
+  }
+  .contact-conversation > div:first-child {
+    padding-top: 10px;
+  }
+  .contact-conversation h2 {
+    font-size: 38px;
+  }
+  .intro-skip {
+    top: 18px;
+    right: 5%;
+    font-size: 9px;
+    padding: 12px 14px;
+  }
+  .intro-scene > img,
+  .intro-scene > video {
+    object-position: 50% 60%;
+  }
+  .taillight-left {
+    left: 16%;
+  }
+  .taillight-right {
+    right: 16%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-wrapper {
+    display: none;
+  }
+  .intro-scene,
+  .cinematic,
+  .smoke-depth {
+    animation: none !important;
+  }
+  .mobile-filter-bar {
+    backdrop-filter: none;
+  }
+}
+#root {
+  position: relative;
+  z-index: 1;
+}
+body::before {
+  z-index: 0;
+}
+.filters-sidebar .filter-fields input:not([type="checkbox"]),
+.filters-sidebar .filter-fields select {
+  background: #151a19;
+  border-color: #46533c;
+  color: #edf0e8;
+}
+.filters-sidebar .filter-fields input::placeholder {
+  color: #8c958a;
+}

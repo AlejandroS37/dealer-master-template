@@ -6,3 +6,5 @@ dist/
 !.env.example
 playwright-report/
 test-results/
+# Derivatives of the supplied root assets; reproduced by prepare:media.
+public/media/

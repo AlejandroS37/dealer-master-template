@@ -21,6 +21,8 @@ import { riseTo } from "../lib/motion";
 export default function Inventory() {
   const { vehicles, saved, loading, error } = useDealer();
   const [params, setParams] = useSearchParams();
+  const resultsContainer = useRef<HTMLElement>(null);
+  const firstFilterRender = useRef(true);
   const parseParams = (query: URLSearchParams): Filters =>
     ({
       ...emptyFilters,
@@ -64,6 +66,48 @@ export default function Inventory() {
     vehicles.filter((v) => !filters.make || v.make === filters.make),
     "model",
   );
+  useEffect(() => {
+    if (firstFilterRender.current) {
+      firstFilterRender.current = false;
+      return;
+    }
+    const timer = setTimeout(() => {
+      const container = resultsContainer.current;
+      const headerHeight =
+        document.querySelector(".header")?.getBoundingClientRect().height || 0;
+      if (
+        container &&
+        container.getBoundingClientRect().top < headerHeight - 150
+      ) {
+        const top =
+          container.getBoundingClientRect().top +
+          window.scrollY -
+          headerHeight -
+          20;
+        window.scrollTo({
+          top: Math.max(0, top),
+          behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
+            ? "instant"
+            : "smooth",
+        });
+      }
+    }, 180);
+    return () => clearTimeout(timer);
+  }, [
+    filters.make,
+    filters.model,
+    filters.keyword,
+    filters.priceMin,
+    filters.priceMax,
+    filters.yearMin,
+    filters.yearMax,
+    filters.mileage,
+    filters.bodyStyle,
+    filters.drivetrain,
+    filters.transmission,
+    filters.fuelType,
+    filters.saved,
+  ]);
   const makePanel = (
     <>
       <button className="all-makes" onClick={() => set("make", "")}>
@@ -220,9 +264,31 @@ export default function Inventory() {
       <div className="inventory-layout">
         <aside className="makes-sidebar">
           <span className="eyebrow">BY MANUFACTURER</span>
+          {filters.make && (
+            <div className="sidebar-model-control">
+              <span className="eyebrow">{filters.make}</span>
+              <label>
+                Model
+                <select
+                  aria-label="Sidebar model"
+                  value={filters.model}
+                  onChange={(e) => set("model", e.target.value)}
+                >
+                  <option value="">All models</option>
+                  {models.map((model) => (
+                    <option key={model}>{model}</option>
+                  ))}
+                </select>
+              </label>
+            </div>
+          )}
           {makePanel}
         </aside>
-        <section className="inventory-results" aria-label="Vehicle results">
+        <section
+          className="inventory-results"
+          aria-label="Vehicle results"
+          ref={resultsContainer}
+        >
           {filters.make && (
             <div className="selected-make" key={filters.make}>
               <MakeMark make={filters.make} />
@@ -301,7 +367,7 @@ export default function Inventory() {
             </div>
           ) : (
             <div className="empty-state">
-              <span>◇</span>
+              <ArrowUpRight size={40} />
               <h2>A new direction awaits.</h2>
               <p>
                 No vehicles match these selections. Try widening your search.

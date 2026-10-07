@@ -8,7 +8,10 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview --host 0.0.0.0",
     "test": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "prepare:media": "node scripts/prepare-media.mjs",
+    "predev": "npm run prepare:media",
+    "prebuild": "npm run prepare:media"
   },
   "dependencies": {
     "@fontsource/barlow-condensed": "^5.3.0",
@@ -24,6 +27,7 @@
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.0.4",
     "prettier": "^3.9.9",
+    "sharp": "^0.35.5",
     "typescript": "~5.9.3",
     "vite": "^7.1.9",
     "vitest": "^3.2.4"
