@@ -1,0 +1,138 @@
+import type { InventoryAdapter, Vehicle } from "../lib/types";
+const rows: [
+  number,
+  string,
+  string,
+  string,
+  number,
+  number,
+  string,
+  string,
+  string,
+][] = [
+  [
+    2023,
+    "Porsche",
+    "911",
+    "Carrera S",
+    112900,
+    12450,
+    "Coupe",
+    "RWD",
+    "Gasoline",
+  ],
+  [2022, "BMW", "X5", "xDrive40i", 48900, 28640, "SUV", "AWD", "Gasoline"],
+  [
+    2023,
+    "Mercedes-Benz",
+    "C-Class",
+    "C 300",
+    41900,
+    18200,
+    "Sedan",
+    "RWD",
+    "Gasoline",
+  ],
+  [2021, "Audi", "Q7", "Premium Plus", 36900, 42300, "SUV", "AWD", "Gasoline"],
+  [2024, "BMW", "3 Series", "330i", 38900, 14200, "Sedan", "RWD", "Gasoline"],
+  [2022, "Porsche", "Macan", "S", 54900, 26500, "SUV", "AWD", "Gasoline"],
+  [
+    2023,
+    "Lexus",
+    "IS",
+    "350 F Sport",
+    42900,
+    21900,
+    "Sedan",
+    "RWD",
+    "Gasoline",
+  ],
+  [2020, "Toyota", "Camry", "SE", 22900, 58200, "Sedan", "FWD", "Gasoline"],
+  [2022, "Honda", "Accord", "Sport", 26900, 34800, "Sedan", "FWD", "Gasoline"],
+  [
+    2023,
+    "Mercedes-Benz",
+    "GLC",
+    "300 4MATIC",
+    46900,
+    19600,
+    "SUV",
+    "AWD",
+    "Gasoline",
+  ],
+  [2021, "BMW", "X3", "xDrive30i", 31900, 44300, "SUV", "AWD", "Gasoline"],
+  [2024, "Audi", "A5", "Sportback", 44900, 12800, "Sedan", "AWD", "Gasoline"],
+  [2022, "Toyota", "RAV4", "Hybrid XLE", 32900, 36700, "SUV", "AWD", "Hybrid"],
+  [
+    2021,
+    "Nissan",
+    "Frontier",
+    "PRO-4X",
+    28900,
+    49700,
+    "Truck",
+    "4WD",
+    "Gasoline",
+  ],
+  [2023, "Lexus", "RX", "350 Premium", 49900, 23400, "SUV", "AWD", "Gasoline"],
+  [2020, "Honda", "Civic", "EX", 19900, 64200, "Sedan", "FWD", "Gasoline"],
+  [2024, "BMW", "i4", "eDrive40", 47900, 9800, "Sedan", "RWD", "Electric"],
+  [2022, "Porsche", "718", "Cayman", 63900, 17600, "Coupe", "RWD", "Gasoline"],
+];
+export const inventory: Vehicle[] = rows.map((r, i) => ({
+  id: `demo-${i + 1}`,
+  slug: `${r[0]}-${r[1]}-${r[2]}-${i + 1}`
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-"),
+  stockNumber: `DEMO-${String(i + 1).padStart(3, "0")}`,
+  year: r[0],
+  make: r[1],
+  model: r[2],
+  trim: r[3],
+  price: r[4],
+  mileage: r[5],
+  bodyStyle: r[6],
+  drivetrain: r[7],
+  fuelType: r[8],
+  engine:
+    r[8] === "Electric"
+      ? "Electric motor"
+      : r[6] === "Truck"
+        ? "3.8L V6"
+        : r[1] === "Porsche" && r[2] === "911"
+          ? "3.0L twin-turbo flat-six"
+          : "Turbocharged engine (sample)",
+  transmission: "Automatic",
+  exteriorColor: [
+    "Arctic Silver",
+    "Alpine White",
+    "Obsidian Black",
+    "Graphite",
+  ][i % 4],
+  interiorColor: "Black",
+  description:
+    "An exceptional next chapter awaits. This sample vehicle demonstrates our photography-first shopping experience. Specifications and pricing are illustrative; replace them with verified dealer inventory before launch.",
+  features: [
+    "Leather-appointed seating",
+    "Premium audio",
+    "Navigation",
+    "Backup camera",
+    "Heated seats",
+    "Apple CarPlay",
+    "Bluetooth",
+    "Parking assistance",
+  ],
+  images: [
+    `/images/${r[6] === "SUV" ? "suv" : r[6] === "Coupe" ? (r[2] === "911" ? "hero" : "coupe") : r[4] > 35000 ? "sedan" : "everyday"}.jpg`,
+    "/images/about.jpg",
+    "/images/interior.jpg",
+  ],
+  featured: i < 3,
+  addedAt: `2026-09-${String(28 - i).padStart(2, "0")}`,
+  status: "available",
+  demo: true,
+}));
+export const demoInventoryAdapter: InventoryAdapter = {
+  list: async () => inventory,
+  getBySlug: async (slug) => inventory.find((v) => v.slug === slug),
+};
